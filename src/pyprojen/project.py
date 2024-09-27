@@ -22,7 +22,7 @@ from pyprojen.constructs import Construct, Node
 from pyprojen.ignore_file import IgnoreFile
 from pyprojen.common import FILE_MANIFEST
 from pyprojen.json_file import JsonFile
-from pyprojen.cleanup import cleanup
+from pyprojen.cleanup import cleanup, FILE_MANIFEST
 
 # from pyprojen.gitattributes import GitAttributesFile
 # from pyprojen.tasks import Tasks
@@ -175,10 +175,11 @@ class Project(Construct):
         Synthesize all project files into `outdir`.
         """
         # Generate file manifest
-        JsonFile(self, FILE_MANIFEST, lambda: {"files": sorted(list(self._manifest_files))}, omit_empty=True)
+        manifest_files = sorted(list(self._manifest_files))
+        JsonFile(self, FILE_MANIFEST, lambda: {"files": manifest_files}, omit_empty=True)
 
         # Cleanup orphaned files
-        cleanup(self.outdir, list(self._manifest_files), self._exclude_from_cleanup)
+        cleanup(self.outdir, manifest_files, self._exclude_from_cleanup)
 
         # self.logger.debug("Synthesizing project...")
         self.pre_synthesize()
