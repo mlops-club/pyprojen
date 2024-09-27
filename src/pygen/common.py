@@ -1,5 +1,5 @@
 """
-Common constants and utilities for pygen.
+Common constants and utilities for pyprojen.
 """
 
-FILE_MANIFEST = ".pygen/files.json"
+FILE_MANIFEST = ".pyprojen/files.json"

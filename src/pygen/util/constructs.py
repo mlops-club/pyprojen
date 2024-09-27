@@ -1,12 +1,12 @@
 from typing import Any, Callable, TypeVar, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from pygen.project import Project
+    from pyprojen.project import Project
 
 T = TypeVar('T')
 
-PROJECT_SYMBOL = 'pygen.Project'
-COMPONENT_SYMBOL = 'pygen.Component'
+PROJECT_SYMBOL = 'pyprojen.Project'
+COMPONENT_SYMBOL = 'pyprojen.Component'
 
 def try_find_closest(predicate: Callable[[Any], bool]) -> Callable[[Optional[Any]], Optional[T]]:
     def finder(construct: Optional[Any] = None) -> Optional[T]:
@@ -23,7 +23,7 @@ def try_find_closest(predicate: Callable[[Any], bool]) -> Callable[[Optional[Any
     return finder
 
 def find_closest_project(construct: Any) -> 'Project':
-    from pygen.project import Project  # Avoid circular import
+    from pyprojen.project import Project  # Avoid circular import
     
     if is_component(construct):
         return construct.project
@@ -38,7 +38,7 @@ def find_closest_project(construct: Any) -> 'Project':
     return project
 
 def is_project(x: Any) -> bool:
-    from pygen.project import Project  # Avoid circular import
+    from pyprojen.project import Project  # Avoid circular import
     return Project.is_project(x)
 
 def is_component(x: Any) -> bool:

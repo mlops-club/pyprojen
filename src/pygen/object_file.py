@@ -1,8 +1,8 @@
 from abc import ABC
 from typing import Any, Callable, Optional, List
-from pygen.file import FileBase, IResolver
-from pygen.json_patch import JsonPatch
-from pygen.util import deep_merge
+from pyprojen.file import FileBase, IResolver
+from pyprojen.json_patch import JsonPatch
+from pyprojen.util import deep_merge
 
 class ObjectFile(FileBase, ABC):
     """

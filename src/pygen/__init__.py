@@ -1,1 +1,1 @@
-"""pygen."""
+"""pyprojen."""

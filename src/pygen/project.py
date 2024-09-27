@@ -10,28 +10,28 @@ from typing import (
     Optional,
 )
 
-from pygen.component import Component
-from pygen.file import FileBase
-from pygen.util import normalize_persisted_path
-from pygen.util.constructs import (
+from pyprojen.component import Component
+from pyprojen.file import FileBase
+from pyprojen.util import normalize_persisted_path
+from pyprojen.util.constructs import (
     find_closest_project,
     is_project,
     tag_as_project,
 )
-from pygen.constructs import Construct, Node
-from pygen.ignore_file import IgnoreFile
-from pygen.common import FILE_MANIFEST
-from pygen.json_file import JsonFile
-from pygen.cleanup import cleanup
+from pyprojen.constructs import Construct, Node
+from pyprojen.ignore_file import IgnoreFile
+from pyprojen.common import FILE_MANIFEST
+from pyprojen.json_file import JsonFile
+from pyprojen.cleanup import cleanup
 
-# from pygen.gitattributes import GitAttributesFile
-# from pygen.tasks import Tasks
-# from pygen.dependencies import Dependencies
-# from pygen.logger import Logger
+# from pyprojen.gitattributes import GitAttributesFile
+# from pyprojen.tasks import Tasks
+# from pyprojen.dependencies import Dependencies
+# from pyprojen.logger import Logger
 
 DEFAULT_OUTDIR = "."
 
-PROJECT_SYMBOL = 'pygen.Project'
+PROJECT_SYMBOL = 'pyprojen.Project'
 
 class Project(Construct):
     """

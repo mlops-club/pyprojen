@@ -5,7 +5,7 @@ from typing import Dict, Any, TYPE_CHECKING
 import glob
 
 if TYPE_CHECKING:
-    from pygen.project import Project
+    from pyprojen.project import Project
 
 class SnapshotOptions:
     """Options for creating a snapshot."""

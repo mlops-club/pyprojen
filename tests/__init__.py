@@ -1,1 +1,1 @@
-"""Automated tests for pygen."""
+"""Automated tests for pyprojen."""

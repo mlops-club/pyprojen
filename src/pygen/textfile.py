@@ -1,7 +1,7 @@
 from typing import List, Optional
 
-from pygen.file import FileBase, IResolver
-from pygen.constructs import Construct
+from pyprojen.file import FileBase, IResolver
+from pyprojen.constructs import Construct
 
 class TextFile(FileBase):
     """

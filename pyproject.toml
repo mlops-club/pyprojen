@@ -3,8 +3,8 @@
 ############################
 
 [project]
-name = "pygen"
-description = "My package description"
+name = "pyprojen"
+description = "Minimal, spiritual fork of projen. No JSII. Python focused."
 authors = [{ name = "<your name>", email = "some-email@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.7"
@@ -39,7 +39,7 @@ static-code-qa = [
 # - automatically apply formatting
 # - show enhanced autocompletion for stubs libraries
 # See .vscode/settings.json to see how VS Code is configured to use these tools
-dev = ["pygen[test,release,static-code-qa]"]
+dev = ["pyprojen[test,release,static-code-qa]"]
 
 [build-system]
 # Minimum requirements for the build system to execute.
@@ -48,7 +48,7 @@ build-backend = "setuptools.build_meta"
 
 # include more than only .py files in the distribution package (wheel)
 [tool.setuptools.package-data]
-pygen = ["*.json"]
+pyprojen = ["*.json"]
 
 
 ##############################

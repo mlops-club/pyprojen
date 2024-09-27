@@ -1,7 +1,7 @@
 """
 Unit tests for cookiecutter.repo_name.
 
-This folder ideally has a parallel folder structure with the src/pygen/ folder.
+This folder ideally has a parallel folder structure with the src/pyprojen/ folder.
 
 In general, unit tests
 

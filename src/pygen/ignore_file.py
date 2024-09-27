@@ -1,9 +1,9 @@
 from typing import List, Optional, TYPE_CHECKING
-from pygen.file import FileBase, IResolver
-from pygen.util import normalize_persisted_path
+from pyprojen.file import FileBase, IResolver
+from pyprojen.util import normalize_persisted_path
 
 if TYPE_CHECKING:
-    from pygen.project import Project
+    from pyprojen.project import Project
 
 class IgnoreFile(FileBase):
     def __init__(

@@ -1,6 +1,6 @@
 from typing import Any, Dict, Optional
-from pygen.constructs import Construct
-from pygen.util.constructs import is_component, find_closest_project, tag_as_component
+from pyprojen.constructs import Construct
+from pyprojen.util.constructs import is_component, find_closest_project, tag_as_component
 
 class Component(Construct):
     """

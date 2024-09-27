@@ -1,13 +1,13 @@
-# pygen
+# pyprojen
 
 ## Quick start
 
 ```bash
-pip install pygen
+pip install pyprojen
 ```
 
 ```python
-from pygen import ...
+from pyprojen import ...
 ```
 
 ## Developing/Contributing
@@ -24,7 +24,7 @@ You will need the following installed on your machine to develop on this codebas
 
 ```bash
 # clone the repo
-git clone https://github.com/<your github username>/pygen.git
+git clone https://github.com/<your github username>/pyprojen.git
 
 # install the dev dependencies
 make install
