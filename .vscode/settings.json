@@ -28,7 +28,7 @@
     // .py settings
     "[python]": {
         "editor.codeActionsOnSave": {
-            "source.organizeImports": true
+            "source.organizeImports": "explicit"
         },
         "editor.formatOnSave": true,
     },

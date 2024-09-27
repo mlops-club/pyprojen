@@ -1,0 +1,255 @@
+import os
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+)
+
+from pygen.component import Component
+from pygen.file import FileBase
+from pygen.util import normalize_persisted_path
+from pygen.util.constructs import (
+    find_closest_project,
+    is_project,
+    tag_as_project,
+)
+from pygen.constructs import Construct, Node
+from pygen.ignore_file import IgnoreFile
+from pygen.common import FILE_MANIFEST
+from pygen.json_file import JsonFile
+from pygen.cleanup import cleanup
+
+# from pygen.gitattributes import GitAttributesFile
+# from pygen.tasks import Tasks
+# from pygen.dependencies import Dependencies
+# from pygen.logger import Logger
+
+DEFAULT_OUTDIR = "."
+
+PROJECT_SYMBOL = 'pygen.Project'
+
+class Project(Construct):
+    """
+    Base project class.
+    """
+
+    DEFAULT_TASK = "default"
+
+    def __init__(
+        self,
+        name: str,
+        parent: Optional["Project"] = None,
+        outdir: str = ".",
+        logging: Optional[Dict[str, Any]] = None,
+        commit_generated: bool = True,
+        git_ignore_filter_comment_lines: bool = True,
+        git_ignore_filter_empty_lines: bool = True,
+        git_ignore_patterns: Optional[List[str]] = None,
+    ):
+        """
+        Initialize a Project.
+
+        :param name: Project name
+        :param parent: Parent project, if any
+        :param outdir: Output directory
+        :param logging: Logging options
+        :param commit_generated: Whether to commit generated files
+        :param git_ignore_filter_comment_lines: Whether to filter comment lines in .gitignore
+        :param git_ignore_filter_empty_lines: Whether to filter empty lines in .gitignore
+        :param git_ignore_patterns: Initial patterns for .gitignore
+        """
+        super().__init__(parent, f"{self.__class__.__name__}#{name}@{outdir}")
+        tag_as_project(self)
+        setattr(self, PROJECT_SYMBOL, True)
+        self.name = name
+        self.parent = parent
+        self.outdir = self._determine_outdir(parent, outdir)
+        self.commit_generated = commit_generated
+        self._ejected = False  # Changed from self.ejected to self._ejected
+        self._manifest_files = set()
+        self._exclude_from_cleanup: List[str] = []
+        self.gitignore = IgnoreFile(
+            self,
+            ".gitignore",
+            filter_comment_lines=git_ignore_filter_comment_lines,
+            filter_empty_lines=git_ignore_filter_empty_lines,
+            ignore_patterns=git_ignore_patterns
+        )
+
+    @staticmethod
+    def is_project(x: Any) -> bool:
+        """
+        Test whether the given construct is a project.
+
+        :param x: The construct to test
+        :return: True if the construct is a project, False otherwise
+        """
+        return hasattr(x, PROJECT_SYMBOL)
+
+    @staticmethod
+    def of(construct: Any) -> "Project":
+        """
+        Find the closest ancestor project for given construct.
+
+        :param construct: The construct to find the project for
+        :return: The closest ancestor project
+        :raises ValueError: If no project is found
+        """
+        if Project.is_project(construct):
+            return construct
+        if hasattr(construct, 'project'):
+            return construct.project
+        raise ValueError(f"{construct.__class__.__name__} is not associated with a Project")
+
+    @property
+    def root(self) -> "Project":
+        """
+        The root project.
+
+        :return: The root project
+        """
+        return self.node.root if Project.is_project(self.node.root) else self
+
+    @property
+    def components(self) -> List[Component]:
+        """
+        Returns all the components within this project.
+
+        :return: List of components
+        """
+        return [c for c in self.node.children if isinstance(c, Component) and c.project == self]
+
+    @property
+    def subprojects(self) -> List["Project"]:
+        """
+        Returns all the subprojects within this project.
+
+        :return: List of subprojects
+        """
+        return [c for c in self.node.children if Project.is_project(c)]
+
+    @property
+    def files(self) -> List[FileBase]:
+        """
+        All files in this project.
+
+        :return: List of files
+        """
+        return sorted([c for c in self.components if isinstance(c, FileBase)], key=lambda f: f.path)
+
+    def try_find_file(self, file_path: str) -> Optional[FileBase]:
+        """
+        Finds a file at the specified relative path within this project and all its subprojects.
+
+        :param file_path: The file path to search for
+        :return: The found file or None
+        """
+        absolute = os.path.abspath(file_path) if os.path.isabs(file_path) else os.path.join(self.outdir, file_path)
+        return next((c for c in self.node.find_all() if isinstance(c, FileBase) and c.absolute_path == absolute), None)
+
+    def add_git_ignore(self, pattern: str):
+        """
+        Adds a .gitignore pattern.
+
+        :param pattern: The pattern to add
+        """
+        self.gitignore.add_patterns(pattern)
+
+    def annotate_generated(self, glob: str):
+        """
+        Consider a set of files as "generated".
+
+        :param glob: The glob pattern to match
+        """
+        # Implement this method in derived classes
+        pass
+
+    @abstractmethod
+    def synth(self):
+        """
+        Synthesize all project files into `outdir`.
+        """
+        # Generate file manifest
+        JsonFile(self, FILE_MANIFEST, lambda: {"files": sorted(list(self._manifest_files))}, omit_empty=True)
+
+        # Cleanup orphaned files
+        cleanup(self.outdir, list(self._manifest_files), self._exclude_from_cleanup)
+
+        # self.logger.debug("Synthesizing project...")
+        self.pre_synthesize()
+
+        for comp in self.components:
+            comp.pre_synthesize()
+
+        for subproject in self.subprojects:
+            subproject.synth()
+
+        for comp in self.components:
+            comp.synthesize()
+
+        for comp in self.components:
+            comp.post_synthesize()
+
+        self.post_synthesize()
+
+        # self.logger.debug("Synthesis complete")
+
+    def pre_synthesize(self):
+        """
+        Called before all components are synthesized.
+        """
+        pass
+
+    def post_synthesize(self):
+        """
+        Called after all components are synthesized.
+        """
+        pass
+
+    @staticmethod
+    def _determine_outdir(parent: Optional["Project"], outdir_option: Optional[str]) -> str:
+        """
+        Determines the output directory for the project.
+
+        :param parent: The parent project, if any
+        :param outdir_option: The output directory option
+        :return: The determined output directory
+        :raises ValueError: If the output directory is invalid
+        """
+        if parent and os.path.isabs(outdir_option):
+            raise ValueError('"outdir" must be a relative path')
+
+        if parent:
+            return os.path.abspath(os.path.join(parent.outdir, outdir_option))
+
+        return os.path.abspath(outdir_option)
+
+    def _add_to_manifest(self, file_path: str):
+        """
+        Adds a file to the manifest.
+
+        :param file_path: The file path to add
+        """
+        self._manifest_files.add(file_path)
+
+    def add_exclude_from_cleanup(self, *globs: str):
+        """
+        Exclude the matching files from pre-synth cleanup.
+
+        :param globs: The glob patterns to match
+        """
+        self._exclude_from_cleanup.extend(globs)
+
+    @property
+    def ejected(self) -> bool:
+        """
+        Whether the project is ejected.
+
+        :return: True if the project is ejected, False otherwise
+        """
+        return self._ejected
