@@ -34,12 +34,10 @@ DEFAULT_OUTDIR = "."
 
 PROJECT_SYMBOL = 'pyprojen.Project'
 
-class Project(Construct):
+class Project(Construct, ABC):
     """
     Base project class.
     """
-
-    DEFAULT_TASK = "default"
 
     def __init__(
         self,
