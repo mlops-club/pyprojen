@@ -23,6 +23,7 @@ from pyprojen.ignore_file import IgnoreFile
 from pyprojen.common import FILE_MANIFEST
 from pyprojen.json_file import JsonFile
 from pyprojen.cleanup import cleanup, FILE_MANIFEST
+from pyprojen.object_file import ObjectFile
 
 # from pyprojen.gitattributes import GitAttributesFile
 # from pyprojen.tasks import Tasks
@@ -152,6 +153,22 @@ class Project(Construct):
         absolute = os.path.abspath(file_path) if os.path.isabs(file_path) else os.path.join(self.outdir, file_path)
         return next((c for c in self.node.find_all() if isinstance(c, FileBase) and c.absolute_path == absolute), None)
 
+    def try_find_object_file(self, file_path: str) -> Optional[ObjectFile]:
+        """
+        Finds an object file at the specified relative path within this project and all its subprojects.
+
+        :param file_path: The file path to search for
+        :return: The found ObjectFile or None
+        :raises TypeError: If a file is found but it's not an ObjectFile
+        """
+        file = self.try_find_file(file_path)
+        if file is not None:
+            if isinstance(file, ObjectFile):
+                return file
+            else:
+                raise TypeError(f"found file {file_path} but it is not an ObjectFile. got: {file.__class__.__name__}")
+        return None
+
     def add_git_ignore(self, pattern: str):
         """
         Adds a .gitignore pattern.
@@ -169,14 +186,13 @@ class Project(Construct):
         # Implement this method in derived classes
         pass
 
-    @abstractmethod
     def synth(self):
         """
         Synthesize all project files into `outdir`.
         """
         # Generate file manifest
         manifest_files = sorted(list(self._manifest_files))
-        JsonFile(self, FILE_MANIFEST, lambda: {"files": manifest_files}, omit_empty=True)
+        JsonFile(self, FILE_MANIFEST, {"files": manifest_files}, omit_empty=True)
 
         # Cleanup orphaned files
         cleanup(self.outdir, manifest_files, self._exclude_from_cleanup)

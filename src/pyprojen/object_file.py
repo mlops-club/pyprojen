@@ -1,15 +1,16 @@
 from abc import ABC
-from typing import Any, Callable, Optional, List
+from typing import Any, Optional, List
 from pyprojen.file import FileBase, IResolver
 from pyprojen.json_patch import JsonPatch
 from pyprojen.util import deep_merge
+from pyprojen._resolve import resolve
 
 class ObjectFile(FileBase, ABC):
     """
     Represents an Object file.
     """
 
-    def __init__(self, scope: Any, file_path: str, obj: Callable[[], Any], omit_empty: bool = False, **kwargs):
+    def __init__(self, scope: Any, file_path: str, obj: Any, omit_empty: bool = False, **kwargs):
         """
         Initialize an ObjectFile.
 
@@ -32,17 +33,17 @@ class ObjectFile(FileBase, ABC):
         :param resolver: The resolver to use
         :return: The synthesized content as a string, or None
         """
-        obj = self._obj()
-        if self._omit_empty and not obj:
+        obj = self._obj() if callable(self._obj) else self._obj
+        resolved = resolve(obj, {"omit_empty": self._omit_empty})
+        
+        if resolved is None:
             return None
         
-        resolved = resolver.resolve(obj, {"omitEmpty": self._omit_empty})
-        if resolved:
-            deep_merge([resolved, self._raw_overrides], True)
+        deep_merge([resolved, self._raw_overrides], True)
         
         patched = resolved
-        for operation in self._patch_operations:
-            patched = JsonPatch.apply(patched, *operation)
+        for patch in self._patch_operations:
+            patched = JsonPatch.apply(patched, patch)
         
         return self.serialize(patched) if patched else None
 
@@ -87,7 +88,7 @@ class ObjectFile(FileBase, ABC):
 
         :param patches: The patches to apply
         """
-        self._patch_operations.append(patches)
+        self._patch_operations.extend(patches)
 
     @staticmethod
     def _split_on_periods(x: str) -> List[str]:
@@ -107,3 +108,19 @@ class ObjectFile(FileBase, ABC):
             else:
                 ret[-1] += char
         return [part for part in ret if part]
+
+    def get_object(self) -> Any:
+        """
+        Get the raw object before any resolution or patching.
+
+        :return: The raw object
+        """
+        return self._obj() if callable(self._obj) else self._obj
+
+    def set_object(self, obj: Any):
+        """
+        Set the raw object.
+
+        :param obj: The new object to set
+        """
+        self._obj = obj
