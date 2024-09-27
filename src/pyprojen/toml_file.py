@@ -4,7 +4,7 @@
 from typing import Any, Optional
 import tomlkit
 
-from .object_file import ObjectFile
+from pyprojen.object_file import ObjectFile
 
 class TomlFile(ObjectFile):
     def __init__(

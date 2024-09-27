@@ -1,10 +1,7 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
 import json
 from typing import Any, Optional
 
-from .object_file import ObjectFile
+from pyprojen.object_file import ObjectFile
 
 class JsonFile(ObjectFile):
     def __init__(

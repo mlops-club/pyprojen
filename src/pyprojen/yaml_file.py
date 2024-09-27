@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 from typing import Any, Optional
-from .object_file import ObjectFile
+from pyprojen.object_file import ObjectFile
 import yaml
 
 class YamlFile(ObjectFile):
