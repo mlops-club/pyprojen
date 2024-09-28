@@ -139,6 +139,10 @@ This means:
 4. Autocompletion is poor
 5. You need to have NodeJS installed on your system and in CI
 6. The JSII is a bit slow. (seconds not milliseconds)
+
+> [!TIP]
+> Since `projen`'s Python bindings and `pyprojen` have a nearly identical API, you could switch to `projen` if you want to join the larger TypeScript-based ecosystem.
+
 </details>
 
 ## Quick start (TODO)
