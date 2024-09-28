@@ -1,7 +1,12 @@
-from typing import Generator, Any
-import pytest
-import tempfile
 import shutil
+import tempfile
+from typing import (
+    Any,
+    Generator,
+)
+
+import pytest
+
 from pyprojen.project import Project
 
 

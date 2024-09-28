@@ -1,5 +1,5 @@
-from pyprojen.textfile import TextFile
 from pyprojen.project import Project
+from pyprojen.textfile import TextFile
 from pyprojen.util.synth import synth_snapshot
 
 
