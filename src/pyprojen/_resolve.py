@@ -1,12 +1,18 @@
-from typing import Any, Dict, List
 import re
+from typing import (
+    Any,
+    Dict,
+)
+
 
 class IResolvable:
     def to_json(self) -> Any:
         raise NotImplementedError()
 
+
 def is_resolvable(obj: Any) -> bool:
-    return hasattr(obj, 'to_json') and callable(getattr(obj, 'to_json'))
+    return hasattr(obj, "to_json") and callable(getattr(obj, "to_json"))
+
 
 def resolve(value: Any, options: Dict[str, Any] = {}) -> Any:
     """
@@ -24,8 +30,8 @@ def resolve(value: Any, options: Dict[str, Any] = {}) -> Any:
     Raises:
         ValueError: If a regular expression with flags is encountered.
     """
-    args = options.get('args', [])
-    omit_empty = options.get('omit_empty', False)
+    args = options.get("args", [])
+    omit_empty = options.get("omit_empty", False)
 
     match value:
         case None:

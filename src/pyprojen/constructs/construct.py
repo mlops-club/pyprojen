@@ -1,27 +1,42 @@
-import re
-from enum import Enum
-from typing import List, Optional, Dict, Any, Union, Set
-from abc import ABC, abstractmethod
 import hashlib
+import re
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from enum import Enum
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+    Set,
+    Union,
+)
 
-from .dependency import IDependable, Dependable
+from .dependency import (
+    Dependable,
+    IDependable,
+)
 
-CONSTRUCT_SYM = 'constructs.Construct'
+CONSTRUCT_SYM = "constructs.Construct"
+
 
 class IConstruct(IDependable):
     """Interface for constructs."""
 
     @property
     @abstractmethod
-    def node(self) -> 'Node':
+    def node(self) -> "Node":
         """The tree node."""
-        pass
+
 
 class ConstructOrder(Enum):
     """Order in which to return constructs."""
 
     PREORDER = 1
     POSTORDER = 2
+
 
 class MetadataEntry:
     """Represents a metadata entry."""
@@ -38,6 +53,7 @@ class MetadataEntry:
         self.data = data
         self.trace = trace
 
+
 class IValidation(ABC):
     """Interface for validation."""
 
@@ -48,15 +64,15 @@ class IValidation(ABC):
 
         :return: List of error messages
         """
-        pass
+
 
 class Node:
     """Represents the construct node in the scope tree."""
 
-    PATH_SEP = '/'
+    PATH_SEP = "/"
 
     @staticmethod
-    def of(construct: IConstruct) -> 'Node':
+    def of(construct: IConstruct) -> "Node":
         """
         Returns the node associated with a construct.
 
@@ -65,7 +81,7 @@ class Node:
         """
         return construct.node
 
-    def __init__(self, host: 'Construct', scope: Optional[IConstruct], id: str):
+    def __init__(self, host: "Construct", scope: Optional[IConstruct], id: str):
         """
         Initialize a Node.
 
@@ -75,7 +91,7 @@ class Node:
         """
         self._host = host
         self.scope = scope
-        self.id = self._sanitize_id(id or '')
+        self.id = self._sanitize_id(id or "")
         self._children: Dict[str, IConstruct] = {}
         self._context: Dict[str, Any] = {}
         self._metadata: List[MetadataEntry] = []
@@ -162,7 +178,7 @@ class Node:
         """
         return [error for validation in self._validations for error in validation.validate()]
 
-    def _add_child(self, child: 'Construct', child_name: str):
+    def _add_child(self, child: "Construct", child_name: str):
         """
         Add a child construct.
 
@@ -172,7 +188,9 @@ class Node:
         if self._locked:
             raise ValueError(f"Cannot add children to {self.path} during synthesis")
         if child_name in self._children:
-            raise ValueError(f"There is already a Construct with name '{child_name}' in {self._host.__class__.__name__}")
+            raise ValueError(
+                f"There is already a Construct with name '{child_name}' in {self._host.__class__.__name__}"
+            )
         self._children[child_name] = child
 
     @staticmethod
@@ -183,7 +201,7 @@ class Node:
         :param id: The ID to sanitize
         :return: The sanitized ID
         """
-        return re.sub(f'{Node.PATH_SEP}', '--', id)
+        return re.sub(f"{Node.PATH_SEP}", "--", id)
 
     @property
     def addr(self) -> str:
@@ -205,10 +223,10 @@ class Node:
         components = [c.node.id for c in self.scopes]
         hash_object = hashlib.sha1()
         for c in components:
-            if c != 'Default':
+            if c != "Default":
                 hash_object.update(c.encode())
-                hash_object.update(b'\n')
-        return 'c8' + hash_object.hexdigest()
+                hash_object.update(b"\n")
+        return "c8" + hash_object.hexdigest()
 
     def find_all(self) -> List[IConstruct]:
         """
@@ -224,16 +242,17 @@ class Node:
     def try_find_child(self, id: str) -> Optional[IConstruct]:
         """
         Attempts to find a child construct by its id.
-        
+
         :param id: The id of the child construct to find
         :return: The child construct if found, None otherwise
         """
         return self._children.get(id)
 
+
 class Construct(IConstruct):
     """Represents a construct."""
 
-    def __init__(self, scope: Optional[Union['Construct', IConstruct]], id: str):
+    def __init__(self, scope: Optional[Union["Construct", IConstruct]], id: str):
         """
         Initialize a Construct.
 
@@ -268,7 +287,8 @@ class Construct(IConstruct):
 
         :return: The string representation
         """
-        return self.node.path or '<root>'
+        return self.node.path or "<root>"
+
 
 # Mark all instances of 'Construct'
 setattr(Construct, CONSTRUCT_SYM, True)

@@ -1,10 +1,15 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-from typing import Any, Optional
+from typing import (
+    Any,
+    Optional,
+)
+
 import tomlkit
 
 from pyprojen.object_file import ObjectFile
+
 
 class TomlFile(ObjectFile):
     def __init__(
@@ -25,7 +30,7 @@ class TomlFile(ObjectFile):
             return None
 
         toml_content = self.serialize(tomlkit.loads(content))
-        
+
         if self.marker:
             return f"# {self.marker}\n\n{toml_content}"
         return toml_content

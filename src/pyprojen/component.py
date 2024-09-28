@@ -1,6 +1,16 @@
-from typing import Any, Dict, Optional
+from typing import (
+    Any,
+    Dict,
+    Optional,
+)
+
 from pyprojen.constructs import Construct
-from pyprojen.util.constructs import is_component, find_closest_project, tag_as_component
+from pyprojen.util.constructs import (
+    find_closest_project,
+    is_component,
+    tag_as_component,
+)
+
 
 class Component(Construct):
     """
@@ -48,16 +58,13 @@ class Component(Construct):
         """
         Called before synthesis.
         """
-        pass
 
     def synthesize(self):
         """
         Synthesizes files to the project output directory.
         """
-        pass
 
     def post_synthesize(self):
         """
         Called after synthesis.
         """
-        pass

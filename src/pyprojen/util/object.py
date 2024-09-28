@@ -1,4 +1,8 @@
-from typing import Dict, Any
+from typing import (
+    Any,
+    Dict,
+)
+
 
 def remove_null_or_undefined_properties(obj: Dict[str, Any]) -> Dict[str, Any]:
     """

@@ -1,7 +1,14 @@
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
-from pyprojen.file import FileBase, IResolver
 from pyprojen.constructs import Construct
+from pyprojen.file import (
+    FileBase,
+    IResolver,
+)
+
 
 class TextFile(FileBase):
     """
@@ -17,7 +24,7 @@ class TextFile(FileBase):
         edit_gitignore: bool = True,
         readonly: Optional[bool] = None,
         executable: bool = False,
-        marker: Optional[bool] = None
+        marker: Optional[bool] = None,
     ):
         """
         Initialize a TextFile.
@@ -38,14 +45,14 @@ class TextFile(FileBase):
             edit_gitignore=edit_gitignore,
             readonly=readonly,
             executable=executable,
-            marker=marker
+            marker=marker,
         )
         self._lines: List[str] = lines or []
 
     def add_line(self, line: str):
         """
         Adds a line to the text file.
-        
+
         :param line: the line to add (can use tokens)
         """
         self._lines.append(line)

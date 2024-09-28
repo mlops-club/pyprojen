@@ -1,9 +1,18 @@
 from abc import ABC
-from typing import Any, Optional, List
-from pyprojen.file import FileBase, IResolver
+from typing import (
+    Any,
+    List,
+    Optional,
+)
+
+from pyprojen._resolve import resolve
+from pyprojen.file import (
+    FileBase,
+    IResolver,
+)
 from pyprojen.json_patch import JsonPatch
 from pyprojen.util import deep_merge
-from pyprojen._resolve import resolve
+
 
 class ObjectFile(FileBase, ABC):
     """
@@ -35,16 +44,16 @@ class ObjectFile(FileBase, ABC):
         """
         obj = self._obj() if callable(self._obj) else self._obj
         resolved = resolve(obj, {"omit_empty": self._omit_empty})
-        
+
         if resolved is None:
             return None
-        
+
         deep_merge([resolved, self._raw_overrides], True)
-        
+
         patched = resolved
         for patch in self._patch_operations:
             patched = JsonPatch.apply(patched, patch)
-        
+
         return self.serialize(patched) if patched else None
 
     def serialize(self, obj: Any) -> str:
@@ -98,13 +107,13 @@ class ObjectFile(FileBase, ABC):
         :param x: The string to split
         :return: A list of split string parts
         """
-        ret = ['']
+        ret = [""]
         for i, char in enumerate(x):
-            if char == '\\' and i + 1 < len(x):
+            if char == "\\" and i + 1 < len(x):
                 ret[-1] += x[i + 1]
                 i += 1
-            elif char == '.':
-                ret.append('')
+            elif char == ".":
+                ret.append("")
             else:
                 ret[-1] += char
         return [part for part in ret if part]

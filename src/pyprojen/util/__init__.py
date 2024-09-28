@@ -43,34 +43,34 @@ from .synth import (
 from .tasks import make_cross_platform
 
 # Add these new imports
+from .util import deep_merge  # Add this line
 from .util import (
+    any_selected,
+    assert_executable_permissions,
+    decamelize,
+    decamelize_keys_recursively,
+    dedup_array,
     exec,
     exec_capture,
     exec_or_undefined,
-    get_file_permissions,
-    write_file,
-    decamelize_keys_recursively,
-    is_truthy,
-    is_object,
-    deep_merge,  # Add this line
-    dedup_array,
-    sorted_dict_or_list,
+    find_up,
     format_as_python_module,
+    get_file_permissions,
     get_git_version,
+    get_node_major_version,
+    is_executable,
+    is_object,
+    is_root,
+    is_truthy,
+    is_writable,
     kebab_case_keys,
+    multiple_selected,
+    normalize_persisted_path,
     snake_case_keys,
+    sorted_dict_or_list,
     try_read_file,
     try_read_file_sync,
-    is_writable,
-    assert_executable_permissions,
-    is_executable,
-    decamelize,
-    get_node_major_version,
-    any_selected,
-    multiple_selected,
-    is_root,
-    find_up,
-    normalize_persisted_path,
+    write_file,
 )
 
 # Export all imported names

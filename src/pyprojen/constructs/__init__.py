@@ -1,5 +1,15 @@
-from .construct import Construct, IConstruct, Node, ConstructOrder, MetadataEntry
-from .dependency import IDependable, DependencyGroup, Dependable
+from .construct import (
+    Construct,
+    ConstructOrder,
+    IConstruct,
+    MetadataEntry,
+    Node,
+)
+from .dependency import (
+    Dependable,
+    DependencyGroup,
+    IDependable,
+)
 
 __all__ = [
     "Construct",

@@ -1,7 +1,11 @@
-from typing import Any, List, Dict
-import jsonpatch
-import json
 from enum import Enum
+from typing import (
+    Any,
+    Dict,
+)
+
+import jsonpatch
+
 
 class JsonPatchOperation(Enum):
     """Enum for JSON Patch operations."""
@@ -12,6 +16,7 @@ class JsonPatchOperation(Enum):
     MOVE = "move"
     COPY = "copy"
     TEST = "test"
+
 
 class JsonPatch:
     """Represents a JSON Patch operation."""
@@ -31,7 +36,7 @@ class JsonPatch:
         self.from_ = from_
 
     @staticmethod
-    def add(path: str, value: Any) -> 'JsonPatch':
+    def add(path: str, value: Any) -> "JsonPatch":
         """
         Create an 'add' JSON Patch operation.
 
@@ -42,7 +47,7 @@ class JsonPatch:
         return JsonPatch("add", path, value)
 
     @staticmethod
-    def remove(path: str) -> 'JsonPatch':
+    def remove(path: str) -> "JsonPatch":
         """
         Create a 'remove' JSON Patch operation.
 
@@ -52,7 +57,7 @@ class JsonPatch:
         return JsonPatch("remove", path)
 
     @staticmethod
-    def replace(path: str, value: Any) -> 'JsonPatch':
+    def replace(path: str, value: Any) -> "JsonPatch":
         """
         Create a 'replace' JSON Patch operation.
 
@@ -63,7 +68,7 @@ class JsonPatch:
         return JsonPatch("replace", path, value)
 
     @staticmethod
-    def move(from_: str, path: str) -> 'JsonPatch':
+    def move(from_: str, path: str) -> "JsonPatch":
         """
         Create a 'move' JSON Patch operation.
 
@@ -74,7 +79,7 @@ class JsonPatch:
         return JsonPatch("move", path, from_=from_)
 
     @staticmethod
-    def copy(from_: str, path: str) -> 'JsonPatch':
+    def copy(from_: str, path: str) -> "JsonPatch":
         """
         Create a 'copy' JSON Patch operation.
 
@@ -85,7 +90,7 @@ class JsonPatch:
         return JsonPatch("copy", path, from_=from_)
 
     @staticmethod
-    def test(path: str, value: Any) -> 'JsonPatch':
+    def test(path: str, value: Any) -> "JsonPatch":
         """
         Create a 'test' JSON Patch operation.
 
@@ -109,7 +114,7 @@ class JsonPatch:
         return patch_dict
 
     @staticmethod
-    def apply(obj: Any, *patches: 'JsonPatch') -> Any:
+    def apply(obj: Any, *patches: "JsonPatch") -> Any:
         """
         Apply JSON Patch operations to an object.
 

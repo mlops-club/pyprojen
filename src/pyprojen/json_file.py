@@ -1,7 +1,11 @@
 import json
-from typing import Any, Optional
+from typing import (
+    Any,
+    Optional,
+)
 
 from pyprojen.object_file import ObjectFile
+
 
 class JsonFile(ObjectFile):
     def __init__(
@@ -18,7 +22,9 @@ class JsonFile(ObjectFile):
     ):
         super().__init__(scope, file_path, obj, omit_empty, committed=committed, readonly=readonly)
         self.newline = newline
-        self.supports_comments = allow_comments if allow_comments is not None else file_path.lower().endswith(('json5', 'jsonc'))
+        self.supports_comments = (
+            allow_comments if allow_comments is not None else file_path.lower().endswith(("json5", "jsonc"))
+        )
 
     def synthesize_content(self, resolver: Any) -> Optional[str]:
         content = super().synthesize_content(resolver)

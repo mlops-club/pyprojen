@@ -1,8 +1,5 @@
 import os
-from abc import (
-    ABC,
-    abstractmethod,
-)
+from abc import ABC
 from typing import (
     Any,
     Dict,
@@ -10,20 +7,18 @@ from typing import (
     Optional,
 )
 
-from pyprojen.component import Component
-from pyprojen.file import FileBase
-from pyprojen.util import normalize_persisted_path
-from pyprojen.util.constructs import (
-    find_closest_project,
-    is_project,
-    tag_as_project,
+from pyprojen.cleanup import (
+    FILE_MANIFEST,
+    cleanup,
 )
-from pyprojen.constructs import Construct, Node
-from pyprojen.ignore_file import IgnoreFile
 from pyprojen.common import FILE_MANIFEST
+from pyprojen.component import Component
+from pyprojen.constructs import Construct
+from pyprojen.file import FileBase
+from pyprojen.ignore_file import IgnoreFile
 from pyprojen.json_file import JsonFile
-from pyprojen.cleanup import cleanup, FILE_MANIFEST
 from pyprojen.object_file import ObjectFile
+from pyprojen.util.constructs import tag_as_project
 
 # from pyprojen.gitattributes import GitAttributesFile
 # from pyprojen.tasks import Tasks
@@ -32,7 +27,8 @@ from pyprojen.object_file import ObjectFile
 
 DEFAULT_OUTDIR = "."
 
-PROJECT_SYMBOL = 'pyprojen.Project'
+PROJECT_SYMBOL = "pyprojen.Project"
+
 
 class Project(Construct, ABC):
     """
@@ -77,7 +73,7 @@ class Project(Construct, ABC):
             ".gitignore",
             filter_comment_lines=git_ignore_filter_comment_lines,
             filter_empty_lines=git_ignore_filter_empty_lines,
-            ignore_patterns=git_ignore_patterns
+            ignore_patterns=git_ignore_patterns,
         )
 
     @staticmethod
@@ -101,7 +97,7 @@ class Project(Construct, ABC):
         """
         if Project.is_project(construct):
             return construct
-        if hasattr(construct, 'project'):
+        if hasattr(construct, "project"):
             return construct.project
         raise ValueError(f"{construct.__class__.__name__} is not associated with a Project")
 
@@ -182,7 +178,6 @@ class Project(Construct, ABC):
         :param glob: The glob pattern to match
         """
         # Implement this method in derived classes
-        pass
 
     def synth(self):
         """
@@ -218,13 +213,11 @@ class Project(Construct, ABC):
         """
         Called before all components are synthesized.
         """
-        pass
 
     def post_synthesize(self):
         """
         Called after all components are synthesized.
         """
-        pass
 
     @staticmethod
     def _determine_outdir(parent: Optional["Project"], outdir_option: Optional[str]) -> str:

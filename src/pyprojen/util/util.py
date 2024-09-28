@@ -1,16 +1,12 @@
-import json
 import os
 import platform
 import re
 import subprocess
-import tempfile
 from typing import (
     Any,
-    Callable,
     Dict,
     List,
     Optional,
-    Union,
 )
 
 MAX_BUFFER = 10 * 1024 * 1024
@@ -122,6 +118,7 @@ def deep_merge(objects: List[Optional[Dict[str, Any]]], destructive: bool = Fals
     :param destructive: Whether to delete keys with None values
     :return: Merged dictionary
     """
+
     def merge_one(target: Dict[str, Any], source: Dict[str, Any]) -> None:
         for key, value in source.items():
             if isinstance(value, dict):

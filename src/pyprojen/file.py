@@ -1,11 +1,24 @@
 import os
 import shutil
-from abc import ABC, abstractmethod
-from typing import Any, Dict, Optional
+from abc import (
+    ABC,
+    abstractmethod,
+)
+from typing import (
+    Any,
+    Dict,
+    Optional,
+)
 
 from pyprojen.component import Component
-from pyprojen.util import is_writable, normalize_persisted_path, try_read_file_sync, write_file
+from pyprojen.util import (
+    is_writable,
+    normalize_persisted_path,
+    try_read_file_sync,
+    write_file,
+)
 from pyprojen.util.constructs import find_closest_project
+
 
 class FileBase(Component, ABC):
     """
@@ -56,7 +69,11 @@ class FileBase(Component, ABC):
         self._should_add_marker = marker if marker is not None else True
 
         glob_pattern = self.path
-        committed = committed if committed is not None else (project.commit_generated if project.commit_generated is not None else True)
+        committed = (
+            committed
+            if committed is not None
+            else (project.commit_generated if project.commit_generated is not None else True)
+        )
         if committed and file_path != ".gitattributes":
             project.annotate_generated(file_path)
 
@@ -92,7 +109,6 @@ class FileBase(Component, ABC):
         :param resolver: The resolver to use
         :return: The synthesized content or None
         """
-        pass
 
     def synthesize(self):
         """
@@ -126,6 +142,7 @@ class FileBase(Component, ABC):
         """
         return self._changed
 
+
 class IResolver:
     """
     Interface for resolving values.
@@ -140,6 +157,7 @@ class IResolver:
         :return: The resolved value
         """
         return value
+
 
 class ResolveOptions:
     """
@@ -156,6 +174,7 @@ class ResolveOptions:
         self.omit_empty = omit_empty
         self.args = args or []
 
+
 class IResolvable(ABC):
     """
     Interface for resolvable objects.
@@ -168,4 +187,3 @@ class IResolvable(ABC):
 
         :return: The JSON representation of the object
         """
-        pass

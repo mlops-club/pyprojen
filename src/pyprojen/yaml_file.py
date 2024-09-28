@@ -1,9 +1,15 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-from typing import Any, Optional
-from pyprojen.object_file import ObjectFile
+from typing import (
+    Any,
+    Optional,
+)
+
 import yaml
+
+from pyprojen.object_file import ObjectFile
+
 
 class YamlFile(ObjectFile):
     """
@@ -30,7 +36,7 @@ class YamlFile(ObjectFile):
             return None
 
         yaml_content = self.serialize(yaml.safe_load(content))
-        
+
         if self.marker:
             return f"# {self.marker}\n\n{yaml_content}"
         return yaml_content

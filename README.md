@@ -37,33 +37,33 @@ Project templates are great... except that they promote "code duplication at sca
 
 ## Real Examples
 
-`pyprojen` is a minimal port of `projen`'s core functionality to Python. 
+`pyprojen` is a minimal port of `projen`'s core functionality to Python.
 
 Specifically, it gets you
 
 1. ⚡️ **Agility**
-  
-  - **Examples:** 
+
+  - **Examples:**
     - 10x the speed of CI for all repos overnight by making CI steps run in parallel instead of serially
     - Update a team linting rule in `pyproject.toml`, `ruff.toml`, etc.
     - Add auth steps to publish to or install from a private PyPI server in CI or `Dockerfile`s
     - Completely change CI systems with minimal disruption, e.g. switch from Bitbucket Pipelines to GitHub Actions to AWS CodeBuild and back
 
 2. 🧱 **Modularity**
-  
-  - **Examples**: 
-    1. define an opinionated `PythonPackage` component, and 
-    1. layer on top a 
-        - `FastAPIApp`, 
-        - `StreamlitApp`, 
-        - `CdkApp`, 
-        - `PulumiApp`, 
-        - `AirflowDag`, 
-        - `DagsterDag`, 
+
+  - **Examples**:
+    1. define an opinionated `PythonPackage` component, and
+    1. layer on top a
+        - `FastAPIApp`,
+        - `StreamlitApp`,
+        - `CdkApp`,
+        - `PulumiApp`,
+        - `AirflowDag`,
+        - `DagsterDag`,
         - `BentoMLService`,
         - `AwsLambdaPythonFunction`,
         - etc.
-    1. Add (or remove) as many of these to your repo as you like, whenever you like, and find these packages instantly set up with CI, linting, formatting, tests, packaging, publishing, deploying, etc. 
+    1. Add (or remove) as many of these to your repo as you like, whenever you like, and find these packages instantly set up with CI, linting, formatting, tests, packaging, publishing, deploying, etc.
         - For example, you might incrementally develop a "mini data science app monorepo" with
           1. a `MetaflowDag` that trains a model
           1. served in a `FastAPI` app
@@ -100,7 +100,7 @@ That said, although `cookiecutter` and `copier` are more limited, they are also 
 4. An opinionated "task runner" system (think `Makefile/Justfile`, `poetry` scripts, etc.) to define project-related commands.
 5. A `projen new` command which creates the initial `.projenrc.py` config file for your project
 
-#### 2. `pyprojen` implements [1] and [2] from the list above (the unopinionated parts). 
+#### 2. `pyprojen` implements [1] and [2] from the list above (the unopinionated parts).
 
 It is up to you to create your own components with your own opinions on things like
 
@@ -127,7 +127,7 @@ If you write components in Python using `pyprojen`, it should be easy to move th
 
 `projen` is a larger project and is primarily maintained by developers at AWS. `projen`,
 
-But to develop with `projen`, you either need to write TypeScript, or use generated Python bindings that invoke TypeScript. 
+But to develop with `projen`, you either need to write TypeScript, or use generated Python bindings that invoke TypeScript.
 
 If you are familiar with writing AWS CDK in Python, developing with `projen` in Python is a similar experience, because they both use Python bindings generated from TypeScript using the [JSII](https://github.com/aws/jsii) project.
 
@@ -143,7 +143,7 @@ This means:
 
 ## Quick start (TODO)
 
-> [!NOTE] 
+> [!NOTE]
 > Until this section is filled out, you can refer to [this repo](https://github.com/phitoduck/phito-projen) to get a sense of what projen can do. And the official [projen docs](https://projen.io/) contain many of the same concepts that this port uses.
 
 ```bash
@@ -164,7 +164,7 @@ You will need the following installed on your machine to develop on this codebas
 - Python 3.7+, ideally using `pyenv` to easily change between Python versions
 - `git`
 
-### 
+###
 
 ```bash
 # clone the repo

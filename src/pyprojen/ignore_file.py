@@ -1,18 +1,27 @@
-from typing import List, Optional, TYPE_CHECKING
-from pyprojen.file import FileBase, IResolver
+from typing import (
+    TYPE_CHECKING,
+    List,
+    Optional,
+)
+
+from pyprojen.file import (
+    FileBase,
+    IResolver,
+)
 from pyprojen.util import normalize_persisted_path
 
 if TYPE_CHECKING:
     from pyprojen.project import Project
 
+
 class IgnoreFile(FileBase):
     def __init__(
         self,
-        project: 'Project',
+        project: "Project",
         file_path: str,
         filter_comment_lines: bool = True,
         filter_empty_lines: bool = True,
-        ignore_patterns: Optional[List[str]] = None
+        ignore_patterns: Optional[List[str]] = None,
     ):
         super().__init__(project, file_path, edit_gitignore=False)
         self.filter_comment_lines = filter_comment_lines
