@@ -112,7 +112,7 @@ jobs:
       - name: Deploy
         # if: ${{ github.event.inputs.deploy == 'true' }}
         run: |
-          make publish-test
+          # make publish-test
           make publish-prod
       - name: Push tags
         run: |

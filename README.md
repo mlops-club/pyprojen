@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./logo.png">
+    <img src="https://raw.githubusercontent.com/mlops-club/pyprojen/c5b6755a803f7c6f18a42b7cea6f9eb9c917c417/logo.png">
     <h3 align="center">pyprojen</h3>
 </p>
 
@@ -46,7 +46,7 @@ Specifically, it gets you
   - **Examples:**
     - 10x the speed of CI for all repos overnight by making CI steps run in parallel instead of serially
     - Update a team linting rule in `pyproject.toml`, `ruff.toml`, etc.
-    - Add auth steps to publish to or install from a private PyPI server in CI or `Dockerfile`s
+    - Add auth steps to publish to or install from a private PyPI registry in CI or `Dockerfile`s
     - Completely change CI systems with minimal disruption, e.g. switch from Bitbucket Pipelines to GitHub Actions to AWS CodeBuild and back
 
 2. 🧱 **Modularity**
