@@ -1,5 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import List, Any, Set
+from typing import List, Any, Set, TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from pyprojen.constructs.construct import IConstruct
+
 
 class IDependable(ABC):
     pass
