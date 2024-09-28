@@ -22,7 +22,7 @@ jobs:
   check-version-txt:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Tag with the release version
@@ -32,11 +32,11 @@ jobs:
   lint-format-and-static-code-checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Install pre-commit
         run: |
           pip install pre-commit
@@ -47,11 +47,11 @@ jobs:
   build-wheel-and-sdist:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Install build CLI
         run: |
           pip install build
@@ -69,11 +69,11 @@ jobs:
       - build-wheel-and-sdist
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Download wheel and sdist
         uses: actions/download-artifact@v3
         with:
@@ -96,11 +96,11 @@ jobs:
     # if - this is a merge to main or push directly to the main branch
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python 3.10
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.10'
       - name: Download wheel and sdist
         uses: actions/download-artifact@v3
         with:
