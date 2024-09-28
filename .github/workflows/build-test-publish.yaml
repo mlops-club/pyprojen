@@ -106,10 +106,11 @@ jobs:
         with:
           name: wheel-and-sdist
           path: ./dist/
-      # - name: Deploy
-      #   if: ${{ github.event.inputs.deploy == 'true' }}
-      #   run: |
-      #     # ...
+      - name: Deploy
+        if: ${{ github.event.inputs.deploy == 'true' }}
+        run: |
+          make publish-test
+          make publish-prod
       - name: Push tags
         run: |
           git tag $(cat version.txt)
