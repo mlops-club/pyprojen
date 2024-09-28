@@ -82,7 +82,7 @@ jobs:
       - name: Install test dependencies
         run: |
           pip install pytest pytest-cov ./dist/*.whl
-      - name: Lint, Format, and other static code quality checks
+      - name: Run tests
         run: |
           /bin/bash -x run.sh test:ci
 
