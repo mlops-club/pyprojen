@@ -16,7 +16,7 @@ def cleanup(dir: str, new_files: List[str], exclude: List[str]):
             # Remove all files managed by pyprojen with legacy logic
             remove_files(find_generated_files(dir, exclude))
     except Exception as e:
-        logging.warn(f"warning: failed to clean up generated files: {str(e)}")
+        logging.warning(f"warning: failed to clean up generated files: {str(e)}")
 
 
 def remove_files(files: List[str]):
@@ -24,7 +24,7 @@ def remove_files(files: List[str]):
         try:
             os.remove(file)
         except Exception as e:
-            logging.warn(f"Failed to remove file {file}: {str(e)}")
+            logging.warning(f"Failed to remove file {file}: {str(e)}")
 
 
 def find_orphaned_files(dir: str, old_files: List[str], new_files: List[str]) -> List[str]:
@@ -46,5 +46,5 @@ def get_files_from_manifest(dir: str) -> List[str]:
             if "files" in manifest:
                 return manifest["files"]
     except Exception as e:
-        logging.warn(f"warning: unable to get files to clean from file manifest: {str(e)}")
+        logging.warning(f"warning: unable to get files to clean from file manifest: {str(e)}")
     return []
