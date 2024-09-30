@@ -114,6 +114,8 @@ jobs:
         run: |
           # make publish-test
           make publish-prod
+        env:
+          PROD_PYPI_TOKEN: ${{ secrets.PROD_PYPI_TOKEN }}
       - name: Push tags
         run: |
           git tag $(cat version.txt)
