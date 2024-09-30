@@ -74,7 +74,10 @@ def to_release_version(assembly_version: str, target: TargetName) -> str:
 
 
 def to_bracket_notation(
-    semver_range: str, suffix: Optional[str] = None, semver: bool = True, target: TargetName = TargetName.JAVASCRIPT
+    semver_range: str,
+    suffix: Optional[str] = None,
+    semver: bool = True,
+    target: TargetName = TargetName.JAVASCRIPT,
 ) -> str:
     """
     Convert a semver range to bracket notation.

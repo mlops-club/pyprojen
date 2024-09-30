@@ -32,6 +32,8 @@ def synth_snapshot(project: "Project", options: SnapshotOptions = SnapshotOption
     :param options: Options for creating the snapshot
     :return: A dictionary representing the snapshot
     """
+    from pyprojen.json_file import JsonFile
+
     if not project.outdir.startswith(tempfile.gettempdir()) and "project-temp-dir" not in project.outdir:
         raise ValueError(
             "Trying to capture a snapshot of a project outside of tmpdir, which implies this test might corrupt an existing project"

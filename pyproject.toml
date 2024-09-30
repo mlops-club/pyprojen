@@ -5,7 +5,7 @@
 [project]
 name = "pyprojen"
 description = "Minimal, spiritual fork of projen. No JSII. Python focused."
-authors = [{ name = "<your name>", email = "some-email@gmail.com" }]
+authors = [{ name = "Eric Riddoch", email = "eric.riddoch@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.7"
 license = { text = "MIT" }
